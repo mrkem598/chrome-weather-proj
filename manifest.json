@@ -27,7 +27,8 @@
     "tabs",
     "geolocation",
     "https://*.forecast.io/*",
-    "http://ipinfo.io/*",
-    "https://ipinfo.io/*"    
-  ]
+    "http://ipinfo.io/*" 
+  ],
+  "content_security_policy":"script-src 'self' https://api.forecast.io/; object-src 'self'"
+
 }
