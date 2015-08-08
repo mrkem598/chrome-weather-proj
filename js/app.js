@@ -2,23 +2,39 @@
 
 
 // };
-//Acesses Forecast.io API Key from local JSON - hidden from Git
-console.log('loaded');
+//Acesses API Keys from local JSON - hidden from Git
 var mydata = JSON.parse(data);
 
 //Forecaster
 var forecaster = function(latitude, longitude, revGeolocate) {
     $.getJSON('https://api.forecast.io/forecast/' + mydata.forecastKey + '/' + latitude + ',' + longitude + "?callback=?", function(data) {
         //Current data + neighborhood
-        $('#cur-sum').append(data.minutely.summary);
-        $('#head').html('<h1>' + revGeolocate.results[2].address_components[0].short_name + " " + Math.round(data.currently.temperature) + '</h1>');
+        var icon = function(){
+	        if (data.currently.icon == "clear-day" || data.currently.icon == "clear-night" || data.currently.icon == "wind" || data.currently.icon == "partly-cloudy-day" || data.currently.icon == "partly-cloudy-night"){
+	        	return data.currently.icon;
+	        }
+	        else{
+		        	if (data.currently.time>data.daily.data[0].sunsetTime && data.currently.time<data.daily.data[1].sunriseTime){
+		        		console.log('nighttime');
+		        		return data.currently.icon + '-' + night;
+		        	}
+		        	else{
+		        		console.log('daytime');
+		        		return data.currently.icon + '-' + day;
+		        	}
+	        	
+	        }
+        };
+        $('#cur-sum').text(data.minutely.summary);
+        $('#current-icon').html('<img src="../../icons/weather/' + icon() + '.svg">');
+        $('#current-text').html('<h1>' + revGeolocate.results[2].address_components[0].short_name + " " + Math.round(data.currently.temperature) + '&deg;</h1>');
 
 
         //Rain in next hour?
         var goingToRain = false;
         for (var i = 0; i < data.minutely.data.length; i++) {
             if (data.minutely.data[i].precipProbability > 0.1) {
-                $('#rain-status').append("Rain in " + (data.minutely.data[i].time - data.currently.time) + " minutes.");
+                $('#rain-status').append("Rain in " + ((data.minutely.data[i].time - data.currently.time)/60) + " minutes.");
                 goingToRain = true;
                 break;
             }
@@ -28,7 +44,7 @@ var forecaster = function(latitude, longitude, revGeolocate) {
         }
 
         //Hourly forecast
-        for (var j = 0; j < data.hourly.data.length; j++) {
+        for (var j = 1; j < 13; j++) {
             var row = $('<tr>').appendTo('#hourly');
             var date = new Date(data.hourly.data[j].time * 1000);
             var day;
@@ -68,7 +84,7 @@ var forecaster = function(latitude, longitude, revGeolocate) {
             }
             row.append('<td>' + day + " " + hour + '</td>');
             row.append('<td>' + data.hourly.data[j].summary + '</td>');
-            row.append('<td>' + Math.round(data.hourly.data[j].temperature) + '</td>');
+            row.append('<td>' + Math.round(data.hourly.data[j].temperature) + '&deg;</td>');
             row.append('</tr>');
         }
     });
