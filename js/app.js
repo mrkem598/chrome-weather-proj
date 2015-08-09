@@ -1,7 +1,8 @@
-// window.onload = function() {
+window.onload = function() {
 
+ $('#expander').click(expandHours);
 
-// };
+};
 //Acesses API Keys from local JSON - hidden from Git
 var mydata = JSON.parse(data);
 
@@ -44,7 +45,10 @@ var forecaster = function(latitude, longitude, revGeolocate) {
         }
 
         //Hourly forecast
-        for (var j = 1; j < 13; j++) {
+        	//shows 24 hour expander
+        $('#expander').css('visibility', 'visible');
+
+        for (var j = 1; j < 25; j++) {
             var row = $('<tr>').appendTo('#hourly');
             var date = new Date(data.hourly.data[j].time * 1000);
             var day;
@@ -111,3 +115,11 @@ var locOptions = {
 };
 
 navigator.geolocation.getCurrentPosition(loc);
+
+
+//Expand hours from 12 hours to 24
+var expandHours = function(){
+	$('#sizer').css('height', 'auto');
+	$('#sizer').css('overflow', 'show');
+	$('#expander').css('visibility', 'hidden');
+};

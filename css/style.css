@@ -25,17 +25,26 @@
 	}
 	
 	#main-content {
-	    width: 300px;
+	    width: 310px;
 	    background-color: #FFF;
 	    margin: 0 auto 15px;
-	    padding: 35px;
+	    padding: 30px;
 	}
 	
 	#right {
 	    float: right;
 	}
+
+	#sizer{
+			height:236px;
+	    overflow: hidden;
+	}
+	#expander{
+		visibility: hidden;
+	}
 	
 	#left {
+			padding-top: 3px;
 	    float: left;
 	}
 	
