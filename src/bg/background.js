@@ -11,3 +11,5 @@
 //   	chrome.pageAction.show(sender.tab.id);
 //     sendResponse();
 //   });
+
+var lastLoc;
