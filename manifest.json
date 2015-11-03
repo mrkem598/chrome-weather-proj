@@ -19,7 +19,7 @@
   "options_page": "src/options/index.html",
   "browser_action": {
     "default_icon": "icons/icon19.png",
-    "default_title": "Weather Popup",
+    "default_title": "Owens' Weather Extension",
     "default_popup": "src/browser_action/browser_action.html"
   },
   "permissions": [
