@@ -49,7 +49,6 @@ var forecaster = function(latitude, longitude, revGeolocate) {
         }
         if (goingToRain === false) {
             $('#rain-status').append("No rain in next hour.");
-            chrome.browserAction.setBadgeText({text:'NR'});
         }
 
         //Hourly forecast
