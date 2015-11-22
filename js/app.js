@@ -27,6 +27,7 @@ var forecaster = function(latitude, longitude, revGeolocate) {
 	        	
 	        }
         };
+        $('#loading').hide();
         $('#cur-sum').text(data.minutely.summary);
         $('#current-icon').html('<img src="../../icons/weather/' + icon() + '.svg">');
         $('#current-text').html('<h1>' + revGeolocate.results[2].address_components[0].short_name + " " + Math.round(data.currently.temperature) + '&deg;</h1>');
@@ -125,7 +126,10 @@ navigator.geolocation.getCurrentPosition(loc);
 
 //Expand hours from 12 hours to 24
 var expandHours = function(){
-	$('#sizer').css('height', 'auto');
-	$('#sizer').css('overflow', 'show');
+    $('#mainPopup').css('height', 'auto');
+	$('#main-content').css('height', 'auto');
+    $('#sizer').css('height', 'auto');
+    $('#sizer').css('height', 'auto');
+	$('#main-content').css('overflow', 'show');
 	$('#expander').css('visibility', 'hidden');
 };

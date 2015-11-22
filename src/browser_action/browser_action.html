@@ -2,7 +2,7 @@
 <html>
 
 <head>
-		<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" type="text/css" href="../../css/style.css">
     <script type="text/javascript" src="../../js/jquery/jquery.js"></script>
     <script type="text/javascript" src="../../js/key.json"></script>
@@ -12,21 +12,37 @@
 <body>
     <div id="mainPopup">
         <div id="current">
-        	<div id="current-icon"></div>
-        	<div id="current-text"></div>
+            <div id="current-icon"></div>
+            <div id="current-text"><h2>Loading weather data...</h2></div>
         </div>
         <div id="main-content">
+            <div id="loading">
+                <div class="sk-fading-circle">
+                    <div class="sk-circle1 sk-circle"></div>
+                    <div class="sk-circle2 sk-circle"></div>
+                    <div class="sk-circle3 sk-circle"></div>
+                    <div class="sk-circle4 sk-circle"></div>
+                    <div class="sk-circle5 sk-circle"></div>
+                    <div class="sk-circle6 sk-circle"></div>
+                    <div class="sk-circle7 sk-circle"></div>
+                    <div class="sk-circle8 sk-circle"></div>
+                    <div class="sk-circle9 sk-circle"></div>
+                    <div class="sk-circle10 sk-circle"></div>
+                    <div class="sk-circle11 sk-circle"></div>
+                    <div class="sk-circle12 sk-circle"></div>
+                </div>
+            </div>
             <div id="left">
                 <div id="cur-sum"></div>
                 <div id="rain-status"></div>
             </div>
             <div id="right">
-            	<div id="sizer">
-                <table id="hourly"></table>
-              </div>
-            		<div id="expander"><a href="#">Expand to 24 Hours</a></div>
+                <div id="sizer">
+                    <table id="hourly"></table>
+                </div>
+                <div id="expander"><a href="#">Expand to 24 Hours</a></div>
             </div>
-        <div id="clearer"></div>
+            <div id="clearer"></div>
         </div>
     </div>
 </body>
