@@ -16,7 +16,7 @@
       "/js/key.json",
       "src/bg/background.js" 
     ],
-    "persistent": false
+    "persistent": true
   },
   "options_page": "src/options/index.html",
   "browser_action": {

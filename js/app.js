@@ -38,7 +38,6 @@ var forecaster = function(latitude, longitude, revGeolocate) {
             if (data.minutely.data[0].precipProbability > 0.1) {
                 $('#rain-status').append("Raining now");
                 goingToRain = true;
-                chrome.browserAction.setBadgeText({text:'R'});
                 break;
             } else if (data.minutely.data[i].precipProbability > 0.1) {
                 $('#rain-status').append("Rain in " + ((data.minutely.data[i].time - data.currently.time) / 60) + " minutes.");
@@ -49,6 +48,7 @@ var forecaster = function(latitude, longitude, revGeolocate) {
         }
         if (goingToRain === false) {
             $('#rain-status').append("No rain in next hour.");
+            chrome.browserAction.setBadgeText({text:Math.round(data.currently.temperature).toString() + '°'});
         }
 
         //Hourly forecast

@@ -49,7 +49,7 @@ var forecaster = function(latitude, longitude, revGeolocate) {
             }
         }
         if (goingToRain === false) {
-        		chrome.browserAction.setBadgeText({text:Math.round(data.currently.temperature).toString()});
+        		chrome.browserAction.setBadgeText({text:Math.round(data.currently.temperature).toString() + '°'});
         } else if (goingToRain){
         	chrome.browserAction.setBadgeText({text:'R:' + ((data.minutely.data[i].time - data.currently.time) / 60)});
         }
@@ -76,10 +76,11 @@ var locOptions = {
     maximumAge: (1000 * 60)
 };
 
+navigator.geolocation.getCurrentPosition(loc);
 
 //Loops the background function for length of time in TimeoutTime
-var timeoutTime = 1000 * 60;
+var timeoutTime = 1000 * 60 *10;
 setInterval(function(){
 	console.log('doin it');
 navigator.geolocation.getCurrentPosition(loc);
-},10000);
+},timeoutTime);
