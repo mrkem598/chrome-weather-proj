@@ -1,6 +1,6 @@
 window.onload = function() {
 
- $('#expander').click(expandHours);
+    $('#expander').click(expandHours);
 
 };
 //Acesses API Keys from local JSON - hidden from Git
@@ -10,22 +10,20 @@ var mydata = JSON.parse(data);
 var forecaster = function(latitude, longitude, revGeolocate) {
     $.getJSON('https://api.forecast.io/forecast/' + mydata.forecastKey + '/' + latitude + ',' + longitude + "?callback=?", function(data) {
         //Current data + neighborhood
-        var icon = function(){
-	        //Icon selector
-	        if (data.currently.icon == "clear-day" || data.currently.icon == "clear-night" || data.currently.icon == "cloudy" || data.currently.icon == "wind" || data.currently.icon == "partly-cloudy-day" || data.currently.icon == "partly-cloudy-night"){
-	        	return data.currently.icon;
-	        }
-	        else{
-		        	if (data.currently.time>data.daily.data[0].sunsetTime && data.currently.time<data.daily.data[1].sunriseTime){
-		        		console.log('nighttime');
-		        		return data.currently.icon + '-' + 'night';
-		        	}
-		        	else{
-		        		console.log('daytime');
-		        		return data.currently.icon + '-' + 'day';
-		        	}
-	        	
-	        }
+        var icon = function() {
+            //Icon selector
+            if (data.currently.icon == "clear-day" || data.currently.icon == "clear-night" || data.currently.icon == "cloudy" || data.currently.icon == "wind" || data.currently.icon == "partly-cloudy-day" || data.currently.icon == "partly-cloudy-night") {
+                return data.currently.icon;
+            } else {
+                if (data.currently.time > data.daily.data[0].sunsetTime && data.currently.time < data.daily.data[1].sunriseTime) {
+                    console.log('nighttime');
+                    return data.currently.icon + '-' + 'night';
+                } else {
+                    console.log('daytime');
+                    return data.currently.icon + '-' + 'day';
+                }
+
+            }
         };
         $('#loading').hide();
         $('#cur-sum').text(data.minutely.summary);
@@ -36,13 +34,12 @@ var forecaster = function(latitude, longitude, revGeolocate) {
         //Rain in next hour?
         var goingToRain = false;
         for (var i = 0; i < data.minutely.data.length; i++) {
-        		if (data.minutely.data[0].precipProbability>0.1){
-        			$('#rain-status').append("Raining now");
-        			goingToRain = true;
-        			break;
-        		}
-            else if (data.minutely.data[i].precipProbability > 0.1) {
-                $('#rain-status').append("Rain in " + ((data.minutely.data[i].time - data.currently.time)/60) + " minutes.");
+            if (data.minutely.data[0].precipProbability > 0.1) {
+                $('#rain-status').append("Raining now");
+                goingToRain = true;
+                break;
+            } else if (data.minutely.data[i].precipProbability > 0.1) {
+                $('#rain-status').append("Rain in " + ((data.minutely.data[i].time - data.currently.time) / 60) + " minutes.");
                 goingToRain = true;
                 break;
             }
@@ -52,7 +49,7 @@ var forecaster = function(latitude, longitude, revGeolocate) {
         }
 
         //Hourly forecast
-        	//shows 24 hour expander
+        //shows 24 hour expander
         $('#expander').css('visibility', 'visible');
 
         for (var j = 1; j < 25; j++) {
@@ -125,11 +122,11 @@ navigator.geolocation.getCurrentPosition(loc);
 
 
 //Expand hours from 12 hours to 24
-var expandHours = function(){
+var expandHours = function() {
     $('#mainPopup').css('height', 'auto');
-	$('#main-content').css('height', 'auto');
+    $('#main-content').css('height', 'auto');
     $('#sizer').css('height', 'auto');
     $('#sizer').css('height', 'auto');
-	$('#main-content').css('overflow', 'show');
-	$('#expander').css('visibility', 'hidden');
+    $('#main-content').css('overflow', 'show');
+    $('#expander').css('visibility', 'hidden');
 };
