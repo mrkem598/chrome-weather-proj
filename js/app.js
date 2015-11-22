@@ -25,6 +25,7 @@ var forecaster = function(latitude, longitude, revGeolocate) {
 
             }
         };
+        chrome.browserAction.setIcon({path:'../../icons/weather/' + icon() + '.svg' });
         $('#loading').hide();
         $('#cur-sum').text(data.minutely.summary);
         $('#current-icon').html('<img src="../../icons/weather/' + icon() + '.svg">');
@@ -37,15 +38,18 @@ var forecaster = function(latitude, longitude, revGeolocate) {
             if (data.minutely.data[0].precipProbability > 0.1) {
                 $('#rain-status').append("Raining now");
                 goingToRain = true;
+                chrome.browserAction.setBadgeText({text:'R'});
                 break;
             } else if (data.minutely.data[i].precipProbability > 0.1) {
                 $('#rain-status').append("Rain in " + ((data.minutely.data[i].time - data.currently.time) / 60) + " minutes.");
                 goingToRain = true;
+                chrome.browserAction.setBadgeText({text:'R:' + ((data.minutely.data[i].time - data.currently.time) / 60)});
                 break;
             }
         }
         if (goingToRain === false) {
             $('#rain-status').append("No rain in next hour.");
+            chrome.browserAction.setBadgeText({text:'NR'});
         }
 
         //Hourly forecast
