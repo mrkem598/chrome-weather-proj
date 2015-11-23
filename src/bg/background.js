@@ -84,7 +84,6 @@ chrome.alarms.clearAll(function(x){
 
 chrome.alarms.create({ periodInMinutes: 10});
 chrome.alarms.onAlarm.addListener(function( alarm ) {
-  alert("Working!", alarm);
   navigator.geolocation.getCurrentPosition(loc);
 
 });
