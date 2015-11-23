@@ -78,9 +78,13 @@ var locOptions = {
 
 navigator.geolocation.getCurrentPosition(loc);
 
-//Loops the background function for length of time in TimeoutTime
-var timeoutTime = 1000 * 60 *10;
-setInterval(function(){
-	console.log('doin it');
-navigator.geolocation.getCurrentPosition(loc);
-},timeoutTime);
+chrome.alarms.clearAll(function(x){
+	console.log('was cleared: ' + x);
+});
+
+chrome.alarms.create({ periodInMinutes: 10});
+chrome.alarms.onAlarm.addListener(function( alarm ) {
+  alert("Working!", alarm);
+  navigator.geolocation.getCurrentPosition(loc);
+
+});
