@@ -52,7 +52,13 @@ var forecaster = function(latitude, longitude, revGeolocate) {
         		chrome.browserAction.setBadgeText({text:Math.round(data.currently.temperature).toString() + '°'});
         } else if (goingToRain){
         	chrome.browserAction.setBadgeText({text:'R:' + ((data.minutely.data[i].time - data.currently.time) / 60)});
-        }
+        	chrome.notifications.create("It's Going to Rain!", {
+			        type: 'basic',
+			        iconUrl: '../../icons/weather/rain.svg',
+			        title: 'Its about to start Raining!',
+			        message: 'It will start raining in: '+(data.minutely.data[i].time - data.currently.time) / 60 +' minutes!'
+			     }, function(notificationId) {});
+			        }
     });
     console.log('forecast just happened');
 };
@@ -78,12 +84,14 @@ var locOptions = {
 
 navigator.geolocation.getCurrentPosition(loc);
 
+//Clearing previous alarms - most likely unnecessary
 chrome.alarms.clearAll(function(x){
 	console.log('was cleared: ' + x);
 });
 
+
+//alarm and listener
 chrome.alarms.create({ periodInMinutes: 10});
 chrome.alarms.onAlarm.addListener(function( alarm ) {
   navigator.geolocation.getCurrentPosition(loc);
-
 });
