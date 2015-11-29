@@ -40,9 +40,9 @@ var forecaster = function(latitude, longitude, revGeolocate) {
                 goingToRain = true;
                 break;
             } else if (data.minutely.data[i].precipProbability > 0.1) {
-                $('#rain-status').append("Rain in " + ((data.minutely.data[i].time - data.currently.time) / 60) + " minutes.");
+                $('#rain-status').append("Rain in " + Math.round((data.minutely.data[i].time - data.currently.time) / 60) + " minutes.");
                 goingToRain = true;
-                chrome.browserAction.setBadgeText({text:'R:' + ((data.minutely.data[i].time - data.currently.time) / 60)});
+                chrome.browserAction.setBadgeText({text:'R:' + Math.round((data.minutely.data[i].time - data.currently.time) / 60)});
                 break;
             }
         }
