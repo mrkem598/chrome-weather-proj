@@ -37,6 +37,7 @@ var forecaster = function(latitude, longitude, revGeolocate) {
         for (var i = 0; i < data.minutely.data.length; i++) {
             if (data.minutely.data[0].precipProbability > 0.1) {
                 $('#rain-status').append("Raining now");
+                chrome.browserAction.setBadgeText({text:'R:N'});
                 goingToRain = true;
                 break;
             } else if (data.minutely.data[i].precipProbability > 0.1) {
