@@ -50,8 +50,7 @@ var forecaster = function(latitude, longitude, revGeolocate) {
         if (goingToRain === false) {
             $('#rain-status').append("No rain in next hour.");
             var currentTemperatureBadgeText = Math.round(data.currently.temperature);
-            var degrees = encodeURI(currentTemperatureBadgeText);
-            console.log(decodeURI(degrees) + '°');
+            console.log(currentTemperatureBadgeText + ''+ '°');
             chrome.browserAction.setBadgeText({text:Math.round(data.currently.temperature).toString()});
         }
 
