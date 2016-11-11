@@ -14,7 +14,7 @@
     "scripts": [
       "js/jquery/jquery.min.js",
       "/js/key.json",
-      "src/bg/background.js" 
+      "src/bg/background.js"
     ],
     "persistent": false
   },
@@ -30,9 +30,9 @@
     "tabs",
     "geolocation",
     "alarms",
-    "https://*.forecast.io/*",
-    "http://ipinfo.io/*" 
+    "https://*.darksky.net/*",
+    "http://ipinfo.io/*"
   ],
-  "content_security_policy":"script-src 'self' https://api.forecast.io/; object-src 'self'"
+  "content_security_policy":"script-src 'self' https://api.darksky.net/; object-src 'self'"
 
 }

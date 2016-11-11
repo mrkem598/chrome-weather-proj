@@ -8,7 +8,7 @@ var mydata = JSON.parse(data);
 
 //Forecaster
 var forecaster = function(latitude, longitude, revGeolocate) {
-    $.getJSON('https://api.forecast.io/forecast/' + mydata.forecastKey + '/' + latitude + ',' + longitude + "?callback=?", function(data) {
+    $.getJSON('https://api.darksky.net/forecast/' + mydata.forecastKey + '/' + latitude + ',' + longitude + "?callback=?", function(data) {
         //Current data + neighborhood
         var icon = function() {
             //Icon selector
@@ -27,28 +27,36 @@ var forecaster = function(latitude, longitude, revGeolocate) {
         };
         chrome.browserAction.setIcon({path:'../../icons/weather/' + icon() + '.svg' });
         $('#loading').hide();
-        $('#cur-sum').text(data.minutely.summary);
-        $('#current-icon').html('<img src="../../icons/weather/' + icon() + '.svg">');
-        $('#current-text').html('<h1>' + revGeolocate.results[2].address_components[0].short_name + " " + Math.round(data.currently.temperature) + '&deg;</h1>');
+        if (data.minutely) {
+            $('#cur-sum').text(data.minutely.summary);
+            $('#current-icon').html('<img src="../../icons/weather/' + icon() + '.svg">');
+            $('#current-text').html('<h1>' + revGeolocate.results[2].address_components[0].short_name + " " + Math.round(data.currently.temperature) + '&deg;</h1>');
 
-
-        //Rain in next hour?
-        var goingToRain = false;
-        for (var i = 0; i < data.minutely.data.length; i++) {
-            if (data.minutely.data[0].precipProbability > 0.1) {
-                $('#rain-status').append("Raining now");
-                chrome.browserAction.setBadgeText({text:'R:N'});
-                goingToRain = true;
-                break;
-            } else if (data.minutely.data[i].precipProbability > 0.1) {
-                $('#rain-status').append("Rain in " + Math.round((data.minutely.data[i].time - data.currently.time) / 60) + " minutes.");
-                goingToRain = true;
-                chrome.browserAction.setBadgeText({text:'R:' + Math.round((data.minutely.data[i].time - data.currently.time) / 60)});
-                break;
+            //Rain in next hour?
+            var goingToRain = false;
+            for (var i = 0; i < data.minutely.data.length; i++) {
+                if (data.minutely.data[0].precipProbability > 0.1) {
+                    $('#rain-status').append("Raining now");
+                    chrome.browserAction.setBadgeText({text:'R:N'});
+                    goingToRain = true;
+                    break;
+                } else if (data.minutely.data[i].precipProbability > 0.1) {
+                    $('#rain-status').append("Rain in " + Math.round((data.minutely.data[i].time - data.currently.time) / 60) + " minutes.");
+                    goingToRain = true;
+                    chrome.browserAction.setBadgeText({text:'R:' + Math.round((data.minutely.data[i].time - data.currently.time) / 60)});
+                    break;
+                }
             }
-        }
-        if (goingToRain === false) {
-            $('#rain-status').append("No rain in next hour.");
+            if (goingToRain === false) {
+                $('#rain-status').append("No rain in next hour.");
+                var currentTemperatureBadgeText = Math.round(data.currently.temperature);
+                console.log(currentTemperatureBadgeText + ''+ '°');
+                chrome.browserAction.setBadgeText({text:Math.round(data.currently.temperature).toString()});
+            }
+        } else {
+            $('#cur-sum').text(data.currently.summary);
+            $('#current-icon').html('<img src="../../icons/weather/' + icon() + '.svg">');
+            $('#current-text').html('<h1>' + revGeolocate.results[2].address_components[0].short_name + " " + Math.round(data.currently.temperature) + '&deg;</h1>');
             var currentTemperatureBadgeText = Math.round(data.currently.temperature);
             console.log(currentTemperatureBadgeText + ''+ '°');
             chrome.browserAction.setBadgeText({text:Math.round(data.currently.temperature).toString()});

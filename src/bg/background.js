@@ -36,34 +36,37 @@ var forecaster = function(latitude, longitude, revGeolocate) {
         };
         chrome.browserAction.setIcon({path:'../../icons/weather/' + icon() + '.svg' });
 
+        if (data.minutely){
+            //Rain in next hour?
+            var goingToRain = false;
+            for (var i = 0; i < data.minutely.data.length; i++) {
+                if (data.minutely.data[0].precipProbability > 0.1) {
+                    goingToRain = true;
+                        chrome.browserAction.setBadgeText({text:'R:N'});
+                        // chrome.notifications.create("It's Going to Rain!", {
+                        // type: 'basic',
+                        // iconUrl: '../../icons/weather/rain.svg',
+                        // title: 'Its about to start Raining!',
+                        // message: 'It will start raining in: '+ Math.round((data.minutely.data[i].time - data.currently.time) / 60) +' minutes!'
 
-        //Rain in next hour?
-        var goingToRain = false;
-        for (var i = 0; i < data.minutely.data.length; i++) {
-            if (data.minutely.data[0].precipProbability > 0.1) {
-                goingToRain = true;
-                    chrome.browserAction.setBadgeText({text:'R:N'});
-                    // chrome.notifications.create("It's Going to Rain!", {
-                    // type: 'basic',
-                    // iconUrl: '../../icons/weather/rain.svg',
-                    // title: 'Its about to start Raining!',
-                    // message: 'It will start raining in: '+ Math.round((data.minutely.data[i].time - data.currently.time) / 60) +' minutes!'
-                 
-                break;
-            } else if (data.minutely.data[i].precipProbability > 0.1) {
-                goingToRain = true;
-                    chrome.browserAction.setBadgeText({text:'R:' + Math.round((data.minutely.data[i].time - data.currently.time) / 60)});
-            chrome.notifications.create("It's Going to Rain!", {
-                    type: 'basic',
-                    iconUrl: '../../icons/weather/rain.svg',
-                    title: 'Its about to start Raining!',
-                    message: 'It will start raining in: '+ Math.round((data.minutely.data[i].time - data.currently.time) / 60 )+' minutes!'
-                 });
-                break;
+                    break;
+                } else if (data.minutely.data[i].precipProbability > 0.1) {
+                    goingToRain = true;
+                        chrome.browserAction.setBadgeText({text:'R:' + Math.round((data.minutely.data[i].time - data.currently.time) / 60)});
+                chrome.notifications.create("It's Going to Rain!", {
+                        type: 'basic',
+                        iconUrl: '../../icons/weather/rain.svg',
+                        title: 'Its about to start Raining!',
+                        message: 'It will start raining in: '+ Math.round((data.minutely.data[i].time - data.currently.time) / 60 )+' minutes!'
+                     });
+                    break;
+                }
             }
-        }
-        if (goingToRain === false) {
-        		chrome.browserAction.setBadgeText({text:Math.round(data.currently.temperature).toString() + '°'});
+            if (goingToRain === false) {
+            		chrome.browserAction.setBadgeText({text:Math.round(data.currently.temperature).toString() + '°'});
+            }
+        } else {
+            chrome.browserAction.setBadgeText({text:Math.round(data.currently.temperature).toString() + '°'});
         }
     });
     console.log('forecast just happened');
